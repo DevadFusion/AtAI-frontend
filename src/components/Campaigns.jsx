@@ -1,31 +1,25 @@
 const Campaigns = ({ campaigns }) => {
-    return (
-      <div>
-        <h2 className="text-2xl font-bold text-primary mb-6">Campaigns</h2>
-        <table className="w-full bg-white rounded-lg shadow">
-          <thead>
-            <tr className="bg-green-100">
-              <th className="p-2 text-left">Name</th>
-              <th className="p-2 text-left">Platform</th>
-              <th className="p-2 text-left">Spend</th>
-              <th className="p-2 text-left">Clicks</th>
-              <th className="p-2 text-left">ROAS</th>
+  return (
+    <div className="campaigns-container">
+      <h1 className="campaigns-title">Campaigns</h1>
+      <table className="campaigns-table">
+        <thead className="campaigns-table-header">
+          <tr>
+            <th className="campaigns-table-header-cell">Name</th>
+            <th className="campaigns-table-header-cell">Spend</th>
+          </tr>
+        </thead>
+        <tbody>
+          {campaigns.map((campaign, index) => (
+            <tr key={index} className="campaigns-table-row">
+              <td className="campaigns-table-cell">{campaign.name}</td>
+              <td className="campaigns-table-cell">${campaign.spend.toLocaleString()}</td>
             </tr>
-          </thead>
-          <tbody>
-            {campaigns.map(campaign => (
-              <tr key={campaign.id}>
-                <td className="p-2">{campaign.name}</td>
-                <td className="p-2">{campaign.platform}</td>
-                <td className="p-2">${campaign.spend.toFixed(2)}</td>
-                <td className="p-2">{campaign.clicks}</td>
-                <td className="p-2">{campaign.roas.toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  };
-  
-  export default Campaigns;
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default Campaigns;

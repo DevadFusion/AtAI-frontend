@@ -14,7 +14,7 @@ const App = () => {
   const [campaigns, setCampaigns] = useState([]);
   const auth = getAuth(firebaseApp);
 
-  // Auth State Listener
+  //Auth state listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
@@ -22,7 +22,7 @@ const App = () => {
     return () => unsubscribe();
   }, [auth]);
 
-  // Fetch Campaigns from API
+  //fetch campaigns from API
   useEffect(() => {
     if (user) {
       const fetchCampaigns = async () => {
@@ -40,7 +40,6 @@ const App = () => {
     }
   }, [user]);
 
-  // Login Handler
   const handleLogin = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -55,9 +54,9 @@ const App = () => {
 
   return (
     <Router>
-      <div className="flex min-h-screen bg-background">
+      <div className="app-container">
         <Sidebar />
-        <div className="flex-1 p-8">
+        <div className="app-content">
           <Routes>
             <Route path="/dashboard" element={<Dashboard campaigns={campaigns} />} />
             <Route path="/campaigns" element={<Campaigns campaigns={campaigns} />} />

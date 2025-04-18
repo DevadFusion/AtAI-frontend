@@ -1,42 +1,77 @@
+import { useState, useMemo } from "react";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import { getAuth } from "firebase/auth";
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
 const Analytics = ({ campaigns }) => {
-    return (
-      <div className="flex">
-        <div className="w-2/3">
-          <h2 className="text-2xl font-bold text-primary mb-6">Analytics</h2>
-          <table className="w-full bg-white rounded-lg shadow">
-            <thead>
-              <tr className="bg-green-100">
-                <th className="p-2 text-left">Name</th>
-                <th className="p-2 text-left">Platform</th>
-                <th className="p-2 text-left">Spend</th>
-                <th className="p-2 text-left">Clicks</th>
-                <th className="p-2 text-left">ROAS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {campaigns.map(campaign => (
-                <tr key={campaign.id}>
-                  <td className="p-2">{campaign.name}</td>
-                  <td className="p-2">{campaign.platform}</td>
-                  <td className="p-2">${campaign.spend.toFixed(2)}</td>
-                  <td className="p-2">{campaign.clicks}</td>
-                  <td className="p-2">{campaign.roas.toFixed(2)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="w-1/3 pl-4">
-          <h3 className="text-xl font-bold text-primary mb-4">AI Chatbot</h3>
-          <div className="bg-white p-4 rounded-lg shadow">
-            <p className="text-gray-600">Ask about your campaigns...</p>
-            <input type="text" placeholder="e.g., What's my top campaign?" className="w-full p-2 mb-2 border rounded" />
-            <button className="bg-primary text-white p-2 rounded hover:bg-secondary">Send</button>
-            <p className="mt-2 text-gray-600">Chatbot coming soon...</p>
-          </div>
-        </div>
-      </div>
-    );
+  const [chatInput, setChatInput] = useState("");
+  const [chatResponse, setChatResponse] = useState("");
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  const chartData = useMemo(() => ({
+    labels: campaigns.map((c) => c.name),
+    datasets: [
+      {
+        label: "Spend",
+        data: campaigns.map((c) => c.spend),
+        backgroundColor: "#2ECC71"
+      }
+    ]
+  }), [campaigns]);
+
+  const handleChat = async () => {
+    try {
+      const response = await fetch(
+        "https://us-central1-atai-14440.cloudfunctions.net/dialogflowQuery",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            query: chatInput,
+            campaigns,
+            userId: user ? user.uid : null
+          })
+        }
+      );
+      const data = await response.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      setChatResponse(data.response);
+      setChatInput("");
+    } catch (error) {
+      console.error("Chat error:", error);
+      setChatResponse("Sorry, something went wrong. Try again!");
+    }
   };
-  
-  export default Analytics;
+
+  return (
+    <div className="analytics-container">
+      <h1 className="analytics-title">Analytics</h1>
+      <div className="analytics-chart-container">
+        <Bar data={chartData} options={{ responsive: true }} />
+      </div>
+      <div className="analytics-chat-container">
+        <input
+          type="text"
+          value={chatInput}
+          onChange={(e) => setChatInput(e.target.value)}
+          placeholder="Ask about your campaigns..."
+          className="analytics-input"
+        />
+        <button onClick={handleChat} className="analytics-button">
+          Send
+        </button>
+        {chatResponse && <p className="analytics-chat-response">{chatResponse}</p>}
+      </div>
+    </div>
+  );
+};
+
+export default Analytics;

@@ -1,18 +1,54 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="w-64 bg-primary text-white p-4">
-      <div className="flex items-center mb-6">
-        <img src="/logo.png" alt="AtAI Logo" className="h-8" />
-        <h1 className="text-xl font-bold ml-2">AtAI</h1>
+    <div className="sidebar-container">
+      <div className="sidebar-logo-container">
+        <img src="/logo.png" alt="AtAI Logo" className="sidebar-logo" />
+        <h1 className="sidebar-title"></h1>
       </div>
-      <nav>
-        <Link to="/dashboard" className="block py-2 px-4 hover:bg-secondary rounded">Dashboard</Link>
-        <Link to="/campaigns" className="block py-2 px-4 hover:bg-secondary rounded">Campaigns</Link>
-        <Link to="/analytics" className="block py-2 px-4 hover:bg-secondary rounded">Analytics</Link>
-        <Link to="/settings" className="block py-2 px-4 hover:bg-secondary rounded">Settings</Link>
-      </nav>
+      <ul className="sidebar-nav-list">
+        <li className="sidebar-nav-item">
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+              `sidebar-nav-link ${isActive ? "active" : ""}`
+            }
+          >
+            Dashboard
+          </NavLink>
+        </li>
+        <li className="sidebar-nav-item">
+          <NavLink
+            to="/campaigns"
+            className={({ isActive }) =>
+              `sidebar-nav-link ${isActive ? "active" : ""}`
+            }
+          >
+            Campaigns
+          </NavLink>
+        </li>
+        <li className="sidebar-nav-item">
+          <NavLink
+            to="/analytics"
+            className={({ isActive }) =>
+              `sidebar-nav-link ${isActive ? "active" : ""}`
+            }
+          >
+            Analytics
+          </NavLink>
+        </li>
+        <li className="sidebar-nav-item">
+          <NavLink
+            to="/settings"
+            className={({ isActive }) =>
+              `sidebar-nav-link ${isActive ? "active" : ""}`
+            }
+          >
+            Settings
+          </NavLink>
+        </li>
+      </ul>
     </div>
   );
 };

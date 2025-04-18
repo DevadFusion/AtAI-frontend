@@ -10,11 +10,11 @@ const Login = ({ handleLogin }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-green-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <div className="flex items-center justify-center mb-6">
-          <img src="/logo.png" alt="AtAI Logo" className="h-12" />
-          <h1 className="text-2xl font-bold text-primary ml-2">AtAI</h1>
+    <div className="login-container">
+      <div className="login-card">
+        <div className="login-logo-container">
+          <img src="/logo.png" alt="AtAI Logo" className="login-logo" />
+          <h1 className="login-title">AtAI</h1>
         </div>
         <div>
           <input
@@ -22,19 +22,16 @@ const Login = ({ handleLogin }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
-            className="w-full p-2 mb-4 border rounded"
+            className="login-input"
           />
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
-            className="w-full p-2 mb-4 border rounded"
+            className="login-input"
           />
-          <button
-            onClick={onSubmit}
-            className="w-full bg-primary text-white p-2 rounded hover:bg-secondary"
-          >
+          <button onClick={onSubmit} className="login-button">
             Login
           </button>
         </div>
