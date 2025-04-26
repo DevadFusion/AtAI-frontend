@@ -62,7 +62,7 @@ const Analytics = ({ campaigns }) => {
           type="text"
           value={chatInput}
           onChange={(e) => setChatInput(e.target.value)}
-          placeholder="Ask about your campaigns..."
+          placeholder="Ask about your campaigns.."
           className="analytics-input"
         />
         <button onClick={handleChat} className="analytics-button">
