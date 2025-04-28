@@ -19,7 +19,7 @@ body {
 
 .app-content {
   flex: 1;
-  padding: 1.5rem;
+  padding: 1rem;
 }
 
 /* Login */
@@ -33,26 +33,26 @@ body {
 
 .login-card {
   background-color: white;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 28rem;
+  max-width: 24rem;
 }
 
 .login-logo-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .login-logo {
-  height: 4rem;
+  height: 3rem;
 }
 
 .login-title {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: bold;
   color: var(--primary);
   margin-left: 0.5rem;
@@ -61,7 +61,7 @@ body {
 .login-input {
   width: 100%;
   padding: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
 }
@@ -83,20 +83,20 @@ body {
 /* Dashboard */
 .dashboard-container {
   background-color: var(--background);
-  padding: 1.5rem;
+  padding: 1rem;
   min-height: 100vh;
 }
 
 .dashboard-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: bold;
   color: var(--primary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .dashboard-card {
   background-color: white;
-  padding: 1rem;
+  padding: 0.75rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid #e5e7eb;
@@ -108,52 +108,52 @@ body {
 }
 
 .dashboard-card-title {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--secondary);
   margin-bottom: 0.25rem;
 }
 
 .dashboard-card-value {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: bold;
   color: var(--primary);
 }
 
 .dashboard-chart {
-  padding: 1rem;
+  padding: 0.75rem;
 }
 
 .chart-container {
-  height: 200px;
+  height: 150px;
   position: relative;
 }
 
 /* Analytics */
 .analytics-container {
   background-color: var(--background);
-  padding: 1.5rem;
+  padding: 1rem;
   min-height: 100vh;
 }
 
 .analytics-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: bold;
   color: var(--primary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .analytics-chart-container {
   background-color: white;
-  padding: 1rem;
+  padding: 0.75rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .analytics-chat-container {
-  margin-top: 1rem;
+  margin-top: 0.75rem;
   background-color: white;
-  padding: 1rem;
+  padding: 0.75rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -161,7 +161,7 @@ body {
 .analytics-input {
   width: 100%;
   padding: 0.5rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
 }
@@ -181,16 +181,16 @@ body {
 }
 
 .analytics-chat-response {
-  margin-top: 0.75rem;
-  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
   color: #333;
 }
 
 /* Sidebar */
 .sidebar-container {
-  width: 14rem;
+  width: 12rem;
   background-color: var(--primary);
-  padding: 1rem;
+  padding: 0.75rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -199,15 +199,15 @@ body {
 .sidebar-logo-container {
   display: flex;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .sidebar-logo {
-  height: 3rem;
+  height: 2.5rem;
 }
 
 .sidebar-title {
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: bold;
   color: white;
   margin-left: 0.5rem;
@@ -229,7 +229,7 @@ body {
   color: white;
   text-decoration: none;
   border-radius: 0.25rem;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
 }
 
 .sidebar-nav-link:hover,
@@ -240,15 +240,15 @@ body {
 /* Campaigns */
 .campaigns-container {
   background-color: var(--background);
-  padding: 1.5rem;
+  padding: 1rem;
   min-height: 100vh;
 }
 
 .campaigns-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: bold;
   color: var(--primary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .campaigns-table {
@@ -265,7 +265,7 @@ body {
 }
 
 .campaigns-table-header-cell {
-  padding: 0.75rem;
+  padding: 0.5rem;
   font-weight: 500;
   text-align: left;
 }
@@ -279,35 +279,35 @@ body {
 }
 
 .campaigns-table-cell {
-  padding: 0.75rem;
+  padding: 0.5rem;
 }
 
 /* Settings */
 .settings-container {
   background-color: var(--background);
-  padding: 1.5rem;
+  padding: 1rem;
   min-height: 100vh;
 }
 
 .settings-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: bold;
   color: var(--primary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .settings-card {
   background-color: white;
-  padding: 1rem;
+  padding: 0.75rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 28rem;
+  max-width: 24rem;
 }
 
 .settings-input {
   width: 100%;
   padding: 0.5rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
 }

@@ -8,9 +8,9 @@ const Dashboard = ({ campaigns }) => {
   useEffect(() => {
     const totalSpend = campaigns.reduce((sum, c) => sum + c.spend, 0);
     const totalClicks = campaigns.reduce((sum, c) => sum + c.clicks, 0);
-    const totalRoas = campaigns.reduce((sum, c) => sum + c.roas, 0) / campaigns.length || 0;
+    const totalRoas = campaigns.length ? campaigns.reduce((sum, c) => sum + c.roas, 0) / campaigns.length : 0;
     const totalImpressions = campaigns.reduce((sum, c) => sum + c.impressions, 0);
-    const totalConversionRate = campaigns.reduce((sum, c) => sum + c.conversionRate, 0) / campaigns.length || 0;
+    const totalConversionRate = campaigns.length ? campaigns.reduce((sum, c) => sum + c.conversionRate, 0) / campaigns.length : 0;
     setMetrics({ spend: totalSpend, clicks: totalClicks, roas: totalRoas, impressions: totalImpressions, conversionRate: totalConversionRate });
   }, [campaigns]);
 
@@ -38,17 +38,17 @@ const Dashboard = ({ campaigns }) => {
       legend: {
         position: 'bottom',
         labels: {
-          font: { size: 12 },
+          font: { size: 10 },
         },
       },
     },
     scales: {
       y: {
         beginAtZero: true,
-        ticks: { font: { size: 10 } },
+        ticks: { font: { size: 8 } },
       },
       x: {
-        ticks: { font: { size: 10 } },
+        ticks: { font: { size: 8 } },
       },
     },
   };
@@ -56,29 +56,29 @@ const Dashboard = ({ campaigns }) => {
   return (
     <div className="dashboard-container">
       <h2 className="dashboard-title">Dashboard</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 mb-6">
-        <div className="dashboard-card">
-          <h3 className="dashboard-card-title">Total Spend</h3>
+      <div className="flex flex-wrap gap-3 mb-4">
+        <div className="dashboard-card flex-1 min-w-[100px]">
+          <h3 className="dashboard-card-title">Spend</h3>
           <p className="dashboard-card-value">${metrics.spend.toFixed(2)}</p>
         </div>
-        <div className="dashboard-card">
+        <div className="dashboard-card flex-1 min-w-[100px]">
           <h3 className="dashboard-card-title">Clicks</h3>
           <p className="dashboard-card-value">{metrics.clicks}</p>
         </div>
-        <div className="dashboard-card">
+        <div className="dashboard-card flex-1 min-w-[100px]">
           <h3 className="dashboard-card-title">ROAS</h3>
           <p className="dashboard-card-value">{metrics.roas.toFixed(2)}</p>
         </div>
-        <div className="dashboard-card">
+        <div className="dashboard-card flex-1 min-w-[100px]">
           <h3 className="dashboard-card-title">Impressions</h3>
           <p className="dashboard-card-value">{metrics.impressions}</p>
         </div>
-        <div className="dashboard-card">
-          <h3 className="dashboard-card-title">Conversion Rate</h3>
+        <div className="dashboard-card flex-1 min-w-[100px]">
+          <h3 className="dashboard-card-title">Conv. Rate</h3>
           <p className="dashboard-card-value">{metrics.conversionRate.toFixed(2)}%</p>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div className="dashboard-card dashboard-chart">
           <h3 className="dashboard-card-title mb-2">Campaign Performance</h3>
           <div className="chart-container">
