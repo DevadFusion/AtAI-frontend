@@ -47,7 +47,7 @@ const Analytics = ({ campaigns }) => {
       setChatInput("");
     } catch (error) {
       console.error("Chat error:", error);
-      setChatResponse("Sorry, something went wrong. Try again!");
+      setChatResponse(`Error: ${error.message}`);
     }
   };
 
