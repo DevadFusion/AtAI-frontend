@@ -61,7 +61,7 @@ const App = () => {
             <Route path="/dashboard" element={<Dashboard campaigns={campaigns} />} />
             <Route path="/campaigns" element={<Campaigns campaigns={campaigns} />} />
             <Route path="/analytics" element={<Analytics campaigns={campaigns} />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/settings" element={<Settings user={user} />} />
             <Route path="*" element={<Navigate to="/dashboard" />} />
           </Routes>
         </div>
