@@ -96,14 +96,14 @@ const Dashboard = ({ campaigns }) => {
           <span className="dashboard-card-value">{metrics.conversionRate.toFixed(2)}%</span>
         </div>
       </div>
-
+  
       {recommendation && (
         <div className="dashboard-card mb-6">
           <h3 className="dashboard-card-title">AI Recommendation</h3>
           <p className="dashboard-card-value">{recommendation}</p>
         </div>
       )}
-
+  
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="dashboard-card dashboard-chart">
           <h3 className="dashboard-card-title mb-2">Campaign Performance</h3>
@@ -119,7 +119,7 @@ const Dashboard = ({ campaigns }) => {
         </div>
       </div>
     </div>
-  );
+  );  
 };
 
 export default Dashboard;

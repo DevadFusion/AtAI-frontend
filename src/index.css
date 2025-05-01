@@ -130,12 +130,24 @@ body {
 }
 .dashboard-chart {
   padding: 1rem;
+  width: 100%; /* Make it take full width in the container */
+  max-width: 500px; /* Restrict the max width for the charts */
+  margin: 0 auto;
 }
+
+/* Grid for charts */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Default to one column */
+  gap: 1rem;
+}
+
 .chart-container {
-  height: 250px;
+  height: 200px; /* Smaller chart height */
   width: 100%;
   position: relative;
 }
+
 /* Analytics */
 .analytics-container {
   background-color: var(--background);
@@ -322,5 +334,11 @@ body {
   }
   .dashboard-card {
     min-width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr; /* Two columns on medium and larger screens */
   }
 }
