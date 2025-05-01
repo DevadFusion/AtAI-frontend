@@ -17,7 +17,6 @@ const Dashboard = ({ campaigns }) => {
   useEffect(() => {
     if (!campaigns.length) return;
     
-    // Calculate metrics
     const totalSpend = campaigns.reduce((sum, c) => sum + c.spend, 0);
     const totalClicks = campaigns.reduce((sum, c) => sum + c.clicks, 0);
     const totalRoas = campaigns.length ? campaigns.reduce((sum, c) => sum + c.roas, 0) / campaigns.length : 0;
@@ -32,7 +31,6 @@ const Dashboard = ({ campaigns }) => {
       conversionRate: totalConversionRate 
     });
 
-    // Simple TensorFlow.js model for recommendation
     const recommendCampaign = async () => {
       const roasTensor = tf.tensor2d(campaigns.map(c => [c.roas]));
       const maxRoas = tf.max(roasTensor).dataSync()[0];
@@ -43,36 +41,30 @@ const Dashboard = ({ campaigns }) => {
     recommendCampaign();
   }, [campaigns]);
 
+  // Dummy chart data (replace with real data)
   const performanceData = {
     labels: campaigns.map(c => c.name),
     datasets: [{
-      label: 'ROAS',
-      data: campaigns.map(c => c.roas),
-      borderColor: '#27AE60',
-      backgroundColor: 'rgba(39, 174, 96, 0.2)',
-    }],
+      label: 'Spend',
+      data: campaigns.map(c => c.spend),
+      borderColor: '#0E3530',
+      backgroundColor: 'rgba(14, 53, 48, 0.2)',
+    }]
   };
 
   const audienceData = {
-    labels: ['18-24', '25-34', '35-44'],
+    labels: ['18-24', '25-34', '35-44', '45-54', '55+'],
     datasets: [{
-      data: campaigns.map(c => c.audience.age === '18-24' ? 1 : c.audience.age === '25-34' ? 2 : 1),
-      backgroundColor: ['#2ECC71', '#27AE60', '#219653'],
-    }],
+      data: [25, 40, 20, 10, 5],
+      backgroundColor: ['#0E3530', '#33584e', '#A7BBAA', '#688B79', '#E3EDE6'],
+    }]
   };
 
   const chartOptions = {
+    responsive: true,
     maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'bottom',
-        labels: { font: { size: 12 } },
-      },
-    },
-    scales: {
-      y: { beginAtZero: true, ticks: { font: { size: 10 } } },
-      x: { ticks: { font: { size: 10 } } },
-    },
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true } }
   };
 
   if (!campaigns.length) return <div className="dashboard-container">Loading...</div>;
@@ -81,27 +73,27 @@ const Dashboard = ({ campaigns }) => {
     <div className="dashboard-container">
       <h2 className="dashboard-title">Dashboard</h2>
       
-      {/* Compact metrics row - all in one line */}
-      <div className="flex flex-nowrap gap-3 mb-6 overflow-x-auto pb-2 scrollbar-hide">
-        <div className="dashboard-card flex-shrink-0 w-[180px]">
-          <h3 className="dashboard-card-title">Spend</h3>
-          <p className="dashboard-card-value">${metrics.spend.toFixed(2)}</p>
+      {/* Horizontal scrollable metrics row */}
+      <div className="metrics-row">
+        <div className="dashboard-card">
+          <span className="dashboard-card-title">Spend</span>
+          <span className="dashboard-card-value">${metrics.spend.toFixed(2)}</span>
         </div>
-        <div className="dashboard-card flex-shrink-0 w-[180px]">
-          <h3 className="dashboard-card-title">Clicks</h3>
-          <p className="dashboard-card-value">{metrics.clicks.toLocaleString()}</p>
+        <div className="dashboard-card">
+          <span className="dashboard-card-title">Clicks</span>
+          <span className="dashboard-card-value">{metrics.clicks.toLocaleString()}</span>
         </div>
-        <div className="dashboard-card flex-shrink-0 w-[180px]">
-          <h3 className="dashboard-card-title">ROAS</h3>
-          <p className="dashboard-card-value">{metrics.roas.toFixed(2)}</p>
+        <div className="dashboard-card">
+          <span className="dashboard-card-title">ROAS</span>
+          <span className="dashboard-card-value">{metrics.roas.toFixed(2)}</span>
         </div>
-        <div className="dashboard-card flex-shrink-0 w-[180px]">
-          <h3 className="dashboard-card-title">Impressions</h3>
-          <p className="dashboard-card-value">{metrics.impressions.toLocaleString()}</p>
+        <div className="dashboard-card">
+          <span className="dashboard-card-title">Impressions</span>
+          <span className="dashboard-card-value">{metrics.impressions.toLocaleString()}</span>
         </div>
-        <div className="dashboard-card flex-shrink-0 w-[180px]">
-          <h3 className="dashboard-card-title">Conv. Rate</h3>
-          <p className="dashboard-card-value">{metrics.conversionRate.toFixed(2)}%</p>
+        <div className="dashboard-card">
+          <span className="dashboard-card-title">Conv. Rate</span>
+          <span className="dashboard-card-value">{metrics.conversionRate.toFixed(2)}%</span>
         </div>
       </div>
 

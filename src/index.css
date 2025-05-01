@@ -127,20 +127,52 @@ body {
   white-space: nowrap;
 }
 
-/* Metrics Row Specific Styles */
-.metrics-row {
+/* Metrics Row Aligned Horizontally */
+.metrics-container {
   display: flex;
   flex-wrap: nowrap;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  margin-bottom: 2rem;
   overflow-x: auto;
-  padding-bottom: 0.5rem;
   scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
 }
 
-.metrics-row::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+.metrics-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }
+
+.metric-card {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  min-width: 160px;
+  flex-shrink: 0;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.metric-card:hover {
+  border-color: var(--primary);
+}
+
+.metric-title {
+  font-size: 0.8rem;
+  color: var(--secondary);
+  margin-bottom: 0.25rem;
+  display: block;
+  white-space: nowrap;
+}
+
+.metric-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
 
 .dashboard-chart {
   padding: 1rem;
