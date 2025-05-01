@@ -74,7 +74,7 @@ const Dashboard = ({ campaigns }) => {
       <h2 className="dashboard-title">Dashboard</h2>
       
       {/* Horizontal scrollable metrics row */}
-      <div className="metrics-row">
+      <div id="metrics-row">
         <div className="dashboard-card">
           <span className="dashboard-card-title">Spend</span>
           <span className="dashboard-card-value">${metrics.spend.toFixed(2)}</span>
