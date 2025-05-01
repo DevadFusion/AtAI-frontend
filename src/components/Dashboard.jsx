@@ -4,28 +4,42 @@ import Chart from 'chart.js/auto';
 import * as tf from '@tensorflow/tfjs';
 
 const Dashboard = ({ campaigns }) => {
-  const [metrics, setMetrics] = useState({ spend: 0, clicks: 0, roas: 0, impressions: 0, conversionRate: 0 });
+  const [metrics, setMetrics] = useState({ 
+    spend: 0, 
+    clicks: 0, 
+    roas: 0, 
+    impressions: 0, 
+    conversionRate: 0 
+  });
+  
   const [recommendation, setRecommendation] = useState('');
 
   useEffect(() => {
     if (!campaigns.length) return;
-
+    
     // Calculate metrics
     const totalSpend = campaigns.reduce((sum, c) => sum + c.spend, 0);
     const totalClicks = campaigns.reduce((sum, c) => sum + c.clicks, 0);
     const totalRoas = campaigns.length ? campaigns.reduce((sum, c) => sum + c.roas, 0) / campaigns.length : 0;
     const totalImpressions = campaigns.reduce((sum, c) => sum + c.impressions, 0);
     const totalConversionRate = campaigns.length ? campaigns.reduce((sum, c) => sum + c.conversionRate, 0) / campaigns.length : 0;
-    setMetrics({ spend: totalSpend, clicks: totalClicks, roas: totalRoas, impressions: totalImpressions, conversionRate: totalConversionRate });
+    
+    setMetrics({ 
+      spend: totalSpend, 
+      clicks: totalClicks, 
+      roas: totalRoas, 
+      impressions: totalImpressions, 
+      conversionRate: totalConversionRate 
+    });
 
     // Simple TensorFlow.js model for recommendation
     const recommendCampaign = async () => {
-      // Mock model: Predict best campaign based on ROAS
       const roasTensor = tf.tensor2d(campaigns.map(c => [c.roas]));
       const maxRoas = tf.max(roasTensor).dataSync()[0];
       const bestCampaign = campaigns.find(c => c.roas === maxRoas);
       setRecommendation(`Increase budget for ${bestCampaign.name} (ROAS: ${bestCampaign.roas})`);
     };
+    
     recommendCampaign();
   }, [campaigns]);
 
@@ -66,34 +80,38 @@ const Dashboard = ({ campaigns }) => {
   return (
     <div className="dashboard-container">
       <h2 className="dashboard-title">Dashboard</h2>
-      <div id="metrics-row" className="flex flex-nowrap gap-4 mb-6">
-        <div className="dashboard-card">
+      
+      {/* Compact metrics row - all in one line */}
+      <div className="flex flex-nowrap gap-3 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="dashboard-card flex-shrink-0 w-[180px]">
           <h3 className="dashboard-card-title">Spend</h3>
           <p className="dashboard-card-value">${metrics.spend.toFixed(2)}</p>
         </div>
-        <div className="dashboard-card">
+        <div className="dashboard-card flex-shrink-0 w-[180px]">
           <h3 className="dashboard-card-title">Clicks</h3>
-          <p className="dashboard-card-value">{metrics.clicks}</p>
+          <p className="dashboard-card-value">{metrics.clicks.toLocaleString()}</p>
         </div>
-        <div className="dashboard-card">
+        <div className="dashboard-card flex-shrink-0 w-[180px]">
           <h3 className="dashboard-card-title">ROAS</h3>
           <p className="dashboard-card-value">{metrics.roas.toFixed(2)}</p>
         </div>
-        <div className="dashboard-card">
+        <div className="dashboard-card flex-shrink-0 w-[180px]">
           <h3 className="dashboard-card-title">Impressions</h3>
-          <p className="dashboard-card-value">{metrics.impressions}</p>
+          <p className="dashboard-card-value">{metrics.impressions.toLocaleString()}</p>
         </div>
-        <div className="dashboard-card">
+        <div className="dashboard-card flex-shrink-0 w-[180px]">
           <h3 className="dashboard-card-title">Conv. Rate</h3>
           <p className="dashboard-card-value">{metrics.conversionRate.toFixed(2)}%</p>
         </div>
       </div>
+
       {recommendation && (
         <div className="dashboard-card mb-6">
           <h3 className="dashboard-card-title">AI Recommendation</h3>
           <p className="dashboard-card-value">{recommendation}</p>
         </div>
       )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="dashboard-card dashboard-chart">
           <h3 className="dashboard-card-title mb-2">Campaign Performance</h3>
