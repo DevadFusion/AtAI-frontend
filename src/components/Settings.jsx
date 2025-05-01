@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
-const Settings = ({ user }) => {
+const Settings = ({ user, metrics }) => {
   const [settings, setSettings] = useState({
     theme: 'light',
     currency: 'USD',
@@ -24,18 +25,34 @@ const Settings = ({ user }) => {
     }
   };
 
-  const handleSave = () => {
-    // TODO: Save settings to Firestore under user.uid
-    alert('Settings saved!');
+  const handleSave = async () => {
+    // Save settings to Firestore
+    try {
+      await firebase.firestore().collection('users').doc(user.uid).set(settings, { merge: true });
+      alert('Settings saved!');
+    } catch (error) {
+      alert('Error saving settings: ' + error.message);
+    }
   };
 
-  const generateReport = () => {
+  const generateReport = async () => {
     const doc = new jsPDF();
     doc.setFontSize(16);
     doc.text('AtAI Campaign Report', 20, 20);
     doc.setFontSize(12);
     doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 20, 30);
-    doc.text(`Total Spend: $3000`, 20, 40); // Replace with actual metrics
+    doc.text(`Total Spend: $${metrics.spend.toFixed(2)}`, 20, 40);
+    doc.text(`Total Clicks: ${metrics.clicks}`, 20, 50);
+    doc.text(`Average ROAS: ${metrics.roas.toFixed(2)}`, 20, 60);
+
+    // Capture charts
+    const charts = document.querySelectorAll('.chart-container');
+    for (let i = 0; i < charts.length; i++) {
+      const canvas = await html2canvas(charts[i]);
+      const imgData = canvas.toDataURL('image/png');
+      doc.addImage(imgData, 'PNG', 20, 70 + i * 60, 160, 50);
+    }
+
     doc.save('AtAI_Report.pdf');
   };
 
