@@ -52,7 +52,7 @@ const Dashboard = ({ campaigns }) => {
   return (
     <div className="dashboard-container">
       <h2 className="dashboard-title">Dashboard</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 mb-4">
+      <div id="metrics-row" className="flex flex-nowrap gap-4 mb-6">
         <div className="dashboard-card">
           <h3 className="dashboard-card-title">Spend</h3>
           <p className="dashboard-card-value">${metrics.spend.toFixed(2)}</p>
@@ -74,7 +74,7 @@ const Dashboard = ({ campaigns }) => {
           <p className="dashboard-card-value">{metrics.conversionRate.toFixed(2)}%</p>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="dashboard-card dashboard-chart">
           <h3 className="dashboard-card-title mb-2">Campaign Performance</h3>
           <div className="chart-container">
@@ -88,6 +88,34 @@ const Dashboard = ({ campaigns }) => {
           </div>
         </div>
       </div>
+      {/* Alternative Layout (uncomment if 5 metrics in one line are too cramped)
+      <div className="mb-6">
+        <div className="flex flex-nowrap gap-4 mb-4">
+          <div className="dashboard-card">
+            <h3 className="dashboard-card-title">Spend</h3>
+            <p className="dashboard-card-value">${metrics.spend.toFixed(2)}</p>
+          </div>
+          <div className="dashboard-card">
+            <h3 className="dashboard-card-title">Clicks</h3>
+            <p className="dashboard-card-value">{metrics.clicks}</p>
+          </div>
+          <div className="dashboard-card">
+            <h3 className="dashboard-card-title">ROAS</h3>
+            <p className="dashboard-card-value">{metrics.roas.toFixed(2)}</p>
+          </div>
+        </div>
+        <div className="flex flex-nowrap gap-4">
+          <div className="dashboard-card">
+            <h3 className="dashboard-card-title">Impressions</h3>
+            <p className="dashboard-card-value">{metrics.impressions}</p>
+          </div>
+          <div className="dashboard-card">
+            <h3 className="dashboard-card-title">Conv. Rate</h3>
+            <p className="dashboard-card-value">{metrics.conversionRate.toFixed(2)}%</p>
+          </div>
+        </div>
+      </div>
+      */}
     </div>
   );
 };

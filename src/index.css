@@ -19,7 +19,7 @@ body {
 
 .app-content {
   flex: 1;
-  padding: 1.5rem;
+  padding: 1rem;
 }
 
 /* Login */
@@ -83,25 +83,27 @@ body {
 /* Dashboard */
 .dashboard-container {
   background-color: var(--background);
-  padding: 1.5rem;
+  padding: 2rem;
   min-height: 100vh;
   width: 100%;
+  max-width: 100%;
 }
 
 .dashboard-title {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--primary);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .dashboard-card {
   background-color: white;
-  padding: 0.75rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid #e5e7eb;
   transition: border-color 0.2s;
+  min-width: 120px;
 }
 
 .dashboard-card:hover {
@@ -109,24 +111,24 @@ body {
 }
 
 .dashboard-card-title {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: var(--secondary);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .dashboard-card-value {
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: var(--primary);
 }
 
 .dashboard-chart {
-  padding: 0.75rem;
+  padding: 1rem;
 }
 
 .chart-container {
-  height: 200px;
+  height: 250px;
   width: 100%;
   position: relative;
 }
@@ -134,7 +136,7 @@ body {
 /* Analytics */
 .analytics-container {
   background-color: var(--background);
-  padding: 1.5rem;
+  padding: 2rem;
   min-height: 100vh;
 }
 
@@ -142,20 +144,20 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--primary);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .analytics-chart-container {
   background-color: white;
-  padding: 0.75rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .analytics-chat-container {
-  margin-top: 0.75rem;
+  margin-top: 1rem;
   background-color: white;
-  padding: 0.75rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -242,7 +244,7 @@ body {
 /* Campaigns */
 .campaigns-container {
   background-color: var(--background);
-  padding: 1.5rem;
+  padding: 2rem;
   min-height: 100vh;
 }
 
@@ -250,7 +252,7 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--primary);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .campaigns-table {
@@ -287,7 +289,7 @@ body {
 /* Settings */
 .settings-container {
   background-color: var(--background);
-  padding: 1.5rem;
+  padding: 2rem;
   min-height: 100vh;
 }
 
@@ -295,7 +297,7 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--primary);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .settings-card {
@@ -341,4 +343,14 @@ body {
 
 .settings-button:hover {
   background-color: var(--secondary);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+  #metrics-row {
+    flex-wrap: wrap;
+  }
+  .dashboard-card {
+    min-width: 100%;
+  }
 }
