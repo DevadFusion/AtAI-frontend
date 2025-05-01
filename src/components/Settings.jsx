@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const Settings = ({ user, metrics }) => {
   const [settings, setSettings] = useState({
@@ -47,10 +49,12 @@ const Settings = ({ user, metrics }) => {
 
     // Capture charts
     const charts = document.querySelectorAll('.chart-container');
+    let y=70;
     for (let i = 0; i < charts.length; i++) {
       const canvas = await html2canvas(charts[i]);
       const imgData = canvas.toDataURL('image/png');
-      doc.addImage(imgData, 'PNG', 20, 70 + i * 60, 160, 50);
+      doc.addImage(imgData, 'PNG', 20, y, 160, 50);
+      y+= 60;
     }
 
     doc.save('AtAI_Report.pdf');
