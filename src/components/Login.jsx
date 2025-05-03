@@ -35,6 +35,7 @@ const Login = ({ handleLogin }) => {
             Login
           </button>
         </div>
+        <p>Don't have an account? <a href="/signup" className="text-green-700">Sign up</a></p>
       </div>
     </div>
   );
