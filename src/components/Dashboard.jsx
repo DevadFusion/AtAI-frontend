@@ -1,6 +1,28 @@
 import { useState, useEffect } from 'react';
 import { Line, Pie } from 'react-chartjs-2';
 import * as tf from '@tensorflow/tfjs';
+import {
+  Chart as ChartJS,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+} from 'chart.js';
+// Register the elements
+ChartJS.register(
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement
+);
 
 const Dashboard = ({ campaigns }) => {
   const [metrics, setMetrics] = useState({ 
