@@ -1,29 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Line, Pie } from 'react-chartjs-2';
 import * as tf from '@tensorflow/tfjs';
-import {
-  Chart as ChartJS,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from 'chart.js';
-
-// Register the elements
-ChartJS.register(
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
 
 const Dashboard = ({ campaigns }) => {
   const [metrics, setMetrics] = useState({ 
@@ -41,9 +18,9 @@ const Dashboard = ({ campaigns }) => {
 
     const totalSpend = campaigns.reduce((sum, c) => sum + c.spend, 0);
     const totalClicks = campaigns.reduce((sum, c) => sum + c.clicks, 0);
-    const totalRoas = campaigns.length ? campaigns.reduce((sum, c) => sum + c.roas, 0) / campaigns.length : 0;
+    const totalRoas = campaigns.reduce((sum, c) => sum + c.roas, 0) / campaigns.length;
     const totalImpressions = campaigns.reduce((sum, c) => sum + c.impressions, 0);
-    const totalConversionRate = campaigns.length ? campaigns.reduce((sum, c) => sum + c.conversionRate, 0) / campaigns.length : 0;
+    const totalConversionRate = campaigns.reduce((sum, c) => sum + c.conversionRate, 0) / campaigns.length;
 
     setMetrics({ 
       spend: totalSpend, 
@@ -57,18 +34,12 @@ const Dashboard = ({ campaigns }) => {
       const roasTensor = tf.tensor2d(campaigns.map(c => [c.roas]));
       const maxRoas = tf.max(roasTensor).dataSync()[0];
       const bestCampaign = campaigns.find(c => c.roas === maxRoas);
-      //if (bestCampaign) {
-      //  setRecommendation(`Increase budget for ${bestCampaign.name} (ROAS: ${bestCampaign.roas})`);
-      //} else {
-      //  setRecommendation('No recommendation available.'); // fallback
-      //}
       setRecommendation(`Increase budget for ${bestCampaign.name} (ROAS: ${bestCampaign.roas})`);
     };
 
     recommendCampaign();
   }, [campaigns]);
 
-  // Dummy chart data (replace with real data)
   const performanceData = {
     labels: campaigns.map(c => c.name),
     datasets: [{
@@ -94,60 +65,52 @@ const Dashboard = ({ campaigns }) => {
     scales: { y: { beginAtZero: true } }
   };
 
-  if (!campaigns.length) return <div className="dashboard-container">Loading...</div>;
+  if (!campaigns.length) return <div className="p-6 text-gray-500">Loading...</div>;
 
   return (
-    <div className="dashboard-container">
-      <h2 className="dashboard-title">Dashboard</h2>
+    <div className="dashboard-container p-6 space-y-8">
+      <h2 className="text-2xl font-bold">Dashboard</h2>
 
-      {/* Horizontal scrollable metrics row */}
-      <div id="metrics-row">
-        <div className="dashboard-card">
-          <span className="dashboard-card-title">Spend  </span>
-          <span className="dashboard-card-value">${metrics.spend.toFixed(2)}</span>
-        </div>
-        <div className="dashboard-card">
-          <span className="dashboard-card-title">Clicks  </span>
-          <span className="dashboard-card-value">{metrics.clicks.toLocaleString()}</span>
-        </div>
-        <div className="dashboard-card">
-          <span className="dashboard-card-title">ROAS  </span>
-          <span className="dashboard-card-value">{metrics.roas.toFixed(2)}</span>
-        </div>
-        <div className="dashboard-card">
-          <span className="dashboard-card-title">Impressions  </span>
-          <span className="dashboard-card-value">{metrics.impressions.toLocaleString()}</span>
-        </div>
-        <div className="dashboard-card">
-          <span className="dashboard-card-title">Conv. Rate  </span>
-          <span className="dashboard-card-value">{metrics.conversionRate.toFixed(2)}%</span>
-        </div>
+      {/* Metrics row */}
+      <div className="flex flex-wrap gap-4">
+        {[
+          { title: 'Spend', value: `$${metrics.spend.toFixed(2)}` },
+          { title: 'Clicks', value: metrics.clicks.toLocaleString() },
+          { title: 'ROAS', value: metrics.roas.toFixed(2) },
+          { title: 'Impressions', value: metrics.impressions.toLocaleString() },
+          { title: 'Conv. Rate', value: `${metrics.conversionRate.toFixed(2)}%` },
+        ].map(({ title, value }) => (
+          <div key={title} className="dashboard-card p-4 rounded-2xl shadow bg-white flex-1 min-w-[150px]">
+            <div className="text-sm text-gray-500">{title}</div>
+            <div className="text-lg font-semibold">{value}</div>
+          </div>
+        ))}
       </div>
 
       {recommendation && (
-        <div className="dashboard-card mb-4">
-          <h3 className="dashboard-card-title">AI Recommendation</h3>
-          <p className="dashboard-card-value">{recommendation}</p>
+        <div className="dashboard-card p-4 rounded-2xl shadow bg-white">
+          <h3 className="text-md font-semibold mb-1">AI Recommendation</h3>
+          <p className="text-gray-700">{recommendation}</p>
         </div>
       )}
-  <br></br>
-  <br></br>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="dashboard-card dashboard-chart">
-          <h3 className="dashboard-card-title mb-2">Campaign Performance</h3>
-          <div className="chart-container">
+
+      {/* Charts */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="dashboard-card p-4 rounded-2xl shadow bg-white h-80">
+          <h3 className="text-md font-semibold mb-2">Campaign Performance</h3>
+          <div className="h-full">
             <Line data={performanceData} options={chartOptions} />
           </div>
         </div>
-        <div className="dashboard-card dashboard-chart">
-          <h3 className="dashboard-card-title mb-2">Audience Breakdown</h3>
-          <div className="chart-container">
+        <div className="dashboard-card p-4 rounded-2xl shadow bg-white h-80">
+          <h3 className="text-md font-semibold mb-2">Audience Breakdown</h3>
+          <div className="h-full">
             <Pie data={audienceData} options={chartOptions} />
           </div>
         </div>
       </div>
     </div>
-  );  
+  );
 };
 
 export default Dashboard;
