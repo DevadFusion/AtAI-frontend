@@ -4,13 +4,8 @@ import * as tf from '@tensorflow/tfjs';
 
 const Dashboard = ({ campaigns }) => {
   const [metrics, setMetrics] = useState({ 
-    spend: 0, 
-    clicks: 0, 
-    roas: 0, 
-    impressions: 0, 
-    conversionRate: 0 
+    spend: 0, clicks: 0, roas: 0, impressions: 0, conversionRate: 0 
   });
-
   const [recommendation, setRecommendation] = useState('');
 
   useEffect(() => {
@@ -23,11 +18,8 @@ const Dashboard = ({ campaigns }) => {
     const totalConversionRate = campaigns.length ? campaigns.reduce((sum, c) => sum + c.conversionRate, 0) / campaigns.length : 0;
 
     setMetrics({ 
-      spend: totalSpend, 
-      clicks: totalClicks, 
-      roas: totalRoas, 
-      impressions: totalImpressions, 
-      conversionRate: totalConversionRate 
+      spend: totalSpend, clicks: totalClicks, roas: totalRoas, 
+      impressions: totalImpressions, conversionRate: totalConversionRate 
     });
 
     const recommendCampaign = async () => {
@@ -40,7 +32,6 @@ const Dashboard = ({ campaigns }) => {
     recommendCampaign();
   }, [campaigns]);
 
-  // Dummy chart data (replace with real data)
   const performanceData = {
     labels: campaigns.map(c => c.name),
     datasets: [{
@@ -66,60 +57,53 @@ const Dashboard = ({ campaigns }) => {
     scales: { y: { beginAtZero: true } }
   };
 
-  if (!campaigns.length) return <div className="dashboard-container">Loading...</div>;
+  if (!campaigns.length) return <div className="p-4 text-gray-600">Loading...</div>;
 
   return (
-    <div className="dashboard-container">
-      <h2 className="dashboard-title">Dashboard</h2>
+    <div className="p-6 space-y-8">
+      <h2 className="text-2xl font-semibold text-gray-800">Dashboard</h2>
 
-      {/* Horizontal scrollable metrics row */}
-      <div id="metrics-row">
-        <div className="dashboard-card">
-          <span className="dashboard-card-title">Spend  </span>
-          <span className="dashboard-card-value">${metrics.spend.toFixed(2)}</span>
-        </div>
-        <div className="dashboard-card">
-          <span className="dashboard-card-title">Clicks  </span>
-          <span className="dashboard-card-value">{metrics.clicks.toLocaleString()}</span>
-        </div>
-        <div className="dashboard-card">
-          <span className="dashboard-card-title">ROAS  </span>
-          <span className="dashboard-card-value">{metrics.roas.toFixed(2)}</span>
-        </div>
-        <div className="dashboard-card">
-          <span className="dashboard-card-title">Impressions  </span>
-          <span className="dashboard-card-value">{metrics.impressions.toLocaleString()}</span>
-        </div>
-        <div className="dashboard-card">
-          <span className="dashboard-card-title">Conv. Rate  </span>
-          <span className="dashboard-card-value">{metrics.conversionRate.toFixed(2)}%</span>
-        </div>
+      {/* Metrics Row */}
+      <div className="flex flex-wrap gap-4">
+        {[
+          { label: 'Spend', value: `$${metrics.spend.toFixed(2)}` },
+          { label: 'Clicks', value: metrics.clicks.toLocaleString() },
+          { label: 'ROAS', value: metrics.roas.toFixed(2) },
+          { label: 'Impressions', value: metrics.impressions.toLocaleString() },
+          { label: 'Conv. Rate', value: `${metrics.conversionRate.toFixed(2)}%` }
+        ].map((metric, i) => (
+          <div key={i} className="bg-white shadow rounded-2xl p-4 min-w-[150px] flex-1">
+            <div className="text-gray-600 text-sm font-medium">{metric.label}</div>
+            <div className="text-xl font-bold text-gray-900">{metric.value}</div>
+          </div>
+        ))}
       </div>
 
+      {/* AI Recommendation */}
       {recommendation && (
-        <div className="dashboard-card mb-4">
-          <h3 className="dashboard-card-title">AI Recommendation</h3>
-          <p className="dashboard-card-value">{recommendation}</p>
+        <div className="bg-white shadow rounded-2xl p-4">
+          <h3 className="text-lg font-medium text-gray-800 mb-1">AI Recommendation</h3>
+          <p className="text-gray-700">{recommendation}</p>
         </div>
       )}
-  <br></br>
-  <br></br>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="dashboard-card dashboard-chart">
-          <h3 className="dashboard-card-title mb-2">Campaign Performance</h3>
-          <div className="chart-container">
+
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white shadow rounded-2xl p-4">
+          <h3 className="text-lg font-medium text-gray-800 mb-2">Campaign Performance</h3>
+          <div className="h-[300px]">
             <Line data={performanceData} options={chartOptions} />
           </div>
         </div>
-        <div className="dashboard-card dashboard-chart">
-          <h3 className="dashboard-card-title mb-2">Audience Breakdown</h3>
-          <div className="chart-container">
+        <div className="bg-white shadow rounded-2xl p-4">
+          <h3 className="text-lg font-medium text-gray-800 mb-2">Audience Breakdown</h3>
+          <div className="h-[300px]">
             <Pie data={audienceData} options={chartOptions} />
           </div>
         </div>
       </div>
     </div>
-  );  
+  );
 };
 
 export default Dashboard;
