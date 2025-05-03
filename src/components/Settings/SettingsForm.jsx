@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import firebase from 'firebase/app';
+import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
