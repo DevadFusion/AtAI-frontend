@@ -104,8 +104,8 @@ body {
 .dashboard-card {
   background-color: white;
   padding: 1rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid #e5e7eb;
   transition: border-color 0.2s;
   min-width: 120px;
@@ -116,6 +116,8 @@ body {
 }
 .dashboard-card:hover {
   border-color: var(--primary);
+  transform: translateY(-2px);
+  transition: all 0.2s ease-in-out;
 }
 .dashboard-card-title {
   font-size: 0.9rem;
@@ -133,6 +135,8 @@ body {
   width: 100%; /* Make it take full width in the container */
   max-width: 500px; /* Restrict the max width for the charts */
   margin: 0 auto;
+  border-radius: 2rem;
+  overflow: hidden;
 }
 
 /* Grid for charts */

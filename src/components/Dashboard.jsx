@@ -23,7 +23,6 @@ ChartJS.register(
   Legend,
   ArcElement
 );
-
 const Dashboard = ({ campaigns }) => {
   const [metrics, setMetrics] = useState({ 
     spend: 0, 
@@ -32,18 +31,14 @@ const Dashboard = ({ campaigns }) => {
     impressions: 0, 
     conversionRate: 0 
   });
-
   const [recommendation, setRecommendation] = useState('');
-
   useEffect(() => {
     if (!campaigns.length) return;
-
     const totalSpend = campaigns.reduce((sum, c) => sum + c.spend, 0);
     const totalClicks = campaigns.reduce((sum, c) => sum + c.clicks, 0);
-    const totalRoas = campaigns.reduce((sum, c) => sum + c.roas, 0) / campaigns.length;
+    const totalRoas = campaigns.length ? campaigns.reduce((sum, c) => sum + c.roas, 0) / campaigns.length : 0;
     const totalImpressions = campaigns.reduce((sum, c) => sum + c.impressions, 0);
-    const totalConversionRate = campaigns.reduce((sum, c) => sum + c.conversionRate, 0) / campaigns.length;
-
+    const totalConversionRate = campaigns.length ? campaigns.reduce((sum, c) => sum + c.conversionRate, 0) / campaigns.length : 0;
     setMetrics({ 
       spend: totalSpend, 
       clicks: totalClicks, 
@@ -51,17 +46,20 @@ const Dashboard = ({ campaigns }) => {
       impressions: totalImpressions, 
       conversionRate: totalConversionRate 
     });
-
     const recommendCampaign = async () => {
       const roasTensor = tf.tensor2d(campaigns.map(c => [c.roas]));
       const maxRoas = tf.max(roasTensor).dataSync()[0];
       const bestCampaign = campaigns.find(c => c.roas === maxRoas);
+      //if (bestCampaign) {
+      //  setRecommendation(`Increase budget for ${bestCampaign.name} (ROAS: ${bestCampaign.roas})`);
+      //} else {
+      //  setRecommendation('No recommendation available.'); // fallback
+      //}
       setRecommendation(`Increase budget for ${bestCampaign.name} (ROAS: ${bestCampaign.roas})`);
     };
-
     recommendCampaign();
   }, [campaigns]);
-
+  // Dummy chart data (replace with real data)
   const performanceData = {
     labels: campaigns.map(c => c.name),
     datasets: [{
@@ -71,7 +69,6 @@ const Dashboard = ({ campaigns }) => {
       backgroundColor: 'rgba(14, 53, 48, 0.2)',
     }]
   };
-
   const audienceData = {
     labels: ['18-24', '25-34', '35-44', '45-54', '55+'],
     datasets: [{
@@ -79,60 +76,62 @@ const Dashboard = ({ campaigns }) => {
       backgroundColor: ['#0E3530', '#33584e', '#A7BBAA', '#688B79', '#E3EDE6'],
     }]
   };
-
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: { y: { beginAtZero: true } }
   };
-
-  if (!campaigns.length) return <div className="p-6 text-gray-500">Loading...</div>;
-
+  if (!campaigns.length) return <div className="dashboard-container">Loading...</div>;
   return (
-    <div className="dashboard-container p-6 space-y-8">
-      <h2 className="text-2xl font-bold">Dashboard</h2>
-
-      {/* Metrics row */}
-      <div className="flex flex-wrap gap-4">
-        {[
-          { title: 'Spend', value: `$${metrics.spend.toFixed(2)}` },
-          { title: 'Clicks', value: metrics.clicks.toLocaleString() },
-          { title: 'ROAS', value: metrics.roas.toFixed(2) },
-          { title: 'Impressions', value: metrics.impressions.toLocaleString() },
-          { title: 'Conv. Rate', value: `${metrics.conversionRate.toFixed(2)}%` },
-        ].map(({ title, value }) => (
-          <div key={title} className="dashboard-card p-4 rounded-2xl shadow bg-white flex-1 min-w-[150px]">
-            <div className="text-sm text-gray-500">{title}</div>
-            <div className="text-lg font-semibold">{value}</div>
-          </div>
-        ))}
+    <div className="dashboard-container">
+      <h2 className="dashboard-title">Dashboard</h2>
+      {/* Horizontal scrollable metrics row */}
+      <div id="metrics-row">
+        <div className="dashboard-card">
+          <span className="dashboard-card-title">Spend  </span>
+          <span className="dashboard-card-value">${metrics.spend.toFixed(2)}</span>
+        </div>
+        <div className="dashboard-card">
+          <span className="dashboard-card-title">Clicks  </span>
+          <span className="dashboard-card-value">{metrics.clicks.toLocaleString()}</span>
+        </div>
+        <div className="dashboard-card">
+          <span className="dashboard-card-title">ROAS  </span>
+          <span className="dashboard-card-value">{metrics.roas.toFixed(2)}</span>
+        </div>
+        <div className="dashboard-card">
+          <span className="dashboard-card-title">Impressions  </span>
+          <span className="dashboard-card-value">{metrics.impressions.toLocaleString()}</span>
+        </div>
+        <div className="dashboard-card">
+          <span className="dashboard-card-title">Conv. Rate  </span>
+          <span className="dashboard-card-value">{metrics.conversionRate.toFixed(2)}%</span>
+        </div>
       </div>
-
       {recommendation && (
-        <div className="dashboard-card p-4 rounded-2xl shadow bg-white">
-          <h3 className="text-md font-semibold mb-1">AI Recommendation</h3>
-          <p className="text-gray-700">{recommendation}</p>
+        <div className="dashboard-card mb-4">
+          <h3 className="dashboard-card-title">AI Recommendation</h3>
+          <p className="dashboard-card-value">{recommendation}</p>
         </div>
       )}
-
-      {/* Charts */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="dashboard-card p-4 rounded-2xl shadow bg-white h-80">
-          <h3 className="text-md font-semibold mb-2">Campaign Performance</h3>
-          <div className="h-full">
+  <br></br>
+  <br></br>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="dashboard-card dashboard-chart">
+          <h3 className="dashboard-card-title mb-2">Campaign Performance</h3>
+          <div className="chart-container">
             <Line data={performanceData} options={chartOptions} />
           </div>
         </div>
-        <div className="dashboard-card p-4 rounded-2xl shadow bg-white h-80">
-          <h3 className="text-md font-semibold mb-2">Audience Breakdown</h3>
-          <div className="h-full">
+        <div className="dashboard-card dashboard-chart">
+          <h3 className="dashboard-card-title mb-2">Audience Breakdown</h3>
+          <div className="chart-container">
             <Pie data={audienceData} options={chartOptions} />
           </div>
         </div>
       </div>
     </div>
-  );
+  );  
 };
-
 export default Dashboard;
