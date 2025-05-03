@@ -57,6 +57,11 @@ const Dashboard = ({ campaigns }) => {
       const roasTensor = tf.tensor2d(campaigns.map(c => [c.roas]));
       const maxRoas = tf.max(roasTensor).dataSync()[0];
       const bestCampaign = campaigns.find(c => c.roas === maxRoas);
+      //if (bestCampaign) {
+      //  setRecommendation(`Increase budget for ${bestCampaign.name} (ROAS: ${bestCampaign.roas})`);
+      //} else {
+      //  setRecommendation('No recommendation available.'); // fallback
+      //}
       setRecommendation(`Increase budget for ${bestCampaign.name} (ROAS: ${bestCampaign.roas})`);
     };
 

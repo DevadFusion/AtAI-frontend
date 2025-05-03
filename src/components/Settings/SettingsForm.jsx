@@ -75,40 +75,6 @@ const SettingsForm = ({ user, metrics }) => {
     doc.save('AtAI_Report.pdf');
   };
 
-  const sendEmailAlert = async (userEmail, campaignName, spend, threshold) => {
-    try {
-      await emailjs.send(
-        'service_ay166vj',
-        'template_ruluy5i',
-        {
-          user_email: userEmail,
-          campaign_name: campaignName,
-          current_spend: spend,
-          threshold: threshold,
-        },
-        'LhrF1O4ykIrSmnHnI'      // public key
-      );
-      console.log('Email sent');
-    } catch (error) {
-      console.error('Email error:', error);
-    }
-  };
-  
-  useEffect(() => {
-    if (
-      settings.notifications.spendThreshold &&
-      metrics.spend > settings.notifications.threshold
-    ) {
-      sendEmailAlert(
-        user.email,
-        'Campaign Spend Alert',
-        metrics.spend,
-        settings.notifications.threshold
-      );
-    }
-  }, [metrics.spend, settings.notifications, user.email]);
-  
-
   return (
     <div className="settings-card">
       <SettingsSection title="User Preferences">
