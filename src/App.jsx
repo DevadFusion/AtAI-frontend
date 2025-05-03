@@ -6,7 +6,7 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
 import Campaigns from "./components/Campaigns";
 import Analytics from "./components/Analytics";
-import Settings from "./components/Settings";
+import Settings from "./components/Settings/Settings";
 import Login from "./components/Login";
 
 const App = () => {
