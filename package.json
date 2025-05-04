@@ -15,14 +15,15 @@
     "@tensorflow/tfjs": "^4.22.0",
     "chart.js": "^4.4.9",
     "emailjs-com": "^3.2.0",
-    "firebase": "^11.6.0",
+    "firebase": "^11.6.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
     "live-server": "^1.2.2",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.5.0",
+    "react-router-dom": "^7.5.3",
+    "react-toastify": "^11.0.5",
     "sib-api-v3-sdk": "^8.5.0"
   },
   "devDependencies": {

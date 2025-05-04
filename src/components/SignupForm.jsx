@@ -1,65 +1,95 @@
 import { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import firebase from '../firebase';
-firebase.db;
 
-const SignupForm = () => {
+const SignupForm = ({onSignup}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailRegex.test(email);
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
+
+    let valid = true;
+
+  if (!validateEmail(email)) {
+    setEmailError('Please enter a valid email.');
+    valid = false;
+  } else {
+    setEmailError('');
+  }
+
+  if (password.length < 6) {
+    setPasswordError('Password must be at least 6 characters long.');
+    valid = false;
+  } else {
+    setPasswordError('');
+  }
+
+  if(valid){
+    setIsLoading(true);
     setError('');
     setSuccess('');
-    const auth = getAuth();
     try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-  
-        // Save additional user data to Firestore
-        await setDoc(doc(db, 'users', user.uid), {
-          email: user.email,
-          createdAt: new Date(),
-          notifications: {
-            spendThreshold: 0,
-          }
-        });
-  
-        setSuccess('Account created !');
-      } catch (err) {
-        setError(err.message);
-      }
-    };
+      await onSignup(email, password, displayName); // Pass name
+      setSuccess("Signup successful!")
+    } catch (err) {
+      setError("Error signing up.")
+    }finally{
+      setIsLoading(false);
+    }
+  }
+
+};
 
     return (
-        <div className="p-4 max-w-md mx-auto bg-white shadow rounded">
-          <h2 className="text-xl font-semibold mb-4">Create Account</h2>
+      <div className="login-container">
+        <div className="login-card">
+          <div className="login-logo-container">
+            <img src="/logo.png" alt="Logo" className="login-logo" />
+          </div>
+          <p className="login-title">Create an account using a valid email address and a minimum 6 characters long password.</p>
           <form onSubmit={handleSignup}>
             <input
               type="email"
               placeholder="Email"
-              className="w-full p-2 mb-2 border rounded"
+              className="login-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            {emailError && <p className="error">{emailError}</p>}
             <input
               type="password"
               placeholder="Password"
-              className="w-full p-2 mb-2 border rounded"
+              className="login-input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button className="w-full bg-green-700 text-white py-2 rounded" type="submit">
-              Sign Up
+            {passwordError && <p className="error">{passwordError}</p>}
+            <input
+              type="text"
+              placeholder="Full Name"
+              className="login-input"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+            />
+            <button className="login-button" type="submit" disabled={isLoading}>
+            {isLoading ? 'Signing up...' : 'Sign up'}
             </button>
-            {success && <p className="text-green-600 mt-2">{success}</p>}
-            {error && <p className="text-red-600 mt-2">{error}</p>}
+            {error && <p className="error">{error}</p>}
+            {success && <p className="success">{success}</p>}
           </form>
         </div>
-      );
+      </div>
+    );
     };
 
 export default SignupForm;

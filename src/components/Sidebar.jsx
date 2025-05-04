@@ -40,6 +40,16 @@ const Sidebar = () => {
         </li>
         <li className="sidebar-nav-item">
           <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              `sidebar-nav-link ${isActive ? "active" : ""}`
+            }
+          >
+            Profile
+          </NavLink>
+        </li>
+        <li className="sidebar-nav-item">
+          <NavLink
             to="/settings"
             className={({ isActive }) =>
               `sidebar-nav-link ${isActive ? "active" : ""}`
